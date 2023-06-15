@@ -13,11 +13,11 @@ app.get("/", (req, res) => {
   res.status(200).send("Curso de Node");
 });
 
-app.get("/livros", (req, res) => {
+app.get("/books", (req, res) => {
   res.status(200).json(books);
 });
 
-app.get("/livros/:id", (req, res) => {
+app.get("/books/:id", (req, res) => {
   const index = getBook(req.params.id);
   if (index == -1) {
     res.status(404).send(`Livro de id = ${req.params.id} não encontrado!`);
@@ -26,12 +26,12 @@ app.get("/livros/:id", (req, res) => {
   }
 });
 
-app.post("/livros", (req, res) => {
+app.post("/books", (req, res) => {
   books.push(req.body);
   res.status(201).send("Livro cadastrado com sucesso!");
 });
 
-app.put("/livros/:id", (req, res) => {
+app.put("/books/:id", (req, res) => {
   const index = getBook(req.params.id);
   if (index == -1) {
     res.status(404).send(`Livro de id = ${req.params.id} não encontrado!`);
@@ -41,7 +41,7 @@ app.put("/livros/:id", (req, res) => {
   }
 });
 
-app.delete("/livros/:id", (req, res) => {
+app.delete("/books/:id", (req, res) => {
   const { id } = req.params;
   const index = getBook(id);
   if (index == -1) {
