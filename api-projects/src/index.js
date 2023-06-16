@@ -2,37 +2,51 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 
+const { v4: uuidv4 } = require("uuid");
+
 const projects = [
-  { id: 1, description: "Project 1" },
-  { id: 2, description: "Project 2" },
-  { id: 3, description: "Project 3" },
+  { id: uuidv4(), description: "Project 1" },
+  { id: uuidv4(), description: "Project 2" },
+  { id: uuidv4(), description: "Project 3" },
 ];
 
+function logRoutes(req, res, next) {
+  const { method, url } = req;
+  const route = `[${method.toUpperCase()}] ${url}`;
+  console.log(route);
+  return next();
+}
+
+app.use(logRoutes);
+
 app.get("/projects", (req, res) => {
-  return res.status(200).json(projects);
+  // const query = req.query;
+  // console.log(query);
+  return res.json(projects);
 });
 
 app.get("/projects/:id", (req, res) => {
   const index = getProject(req.params.id);
   if (index == -1) {
-    res.status(404).send(`Projeto de id = ${req.params.id} não encontrado!`);
+    res.status(404).send({ error: "project not found!" });
   } else {
-    res.status(200).json(projects[index]);
+    res.json(projects[index]);
   }
 });
 
 app.post("/projects", (req, res) => {
-  projects.push(req.body);
-  res.status(201).json(req.body);
+  const project = { id: uuidv4(), description: req.body.description };
+  projects.push(project);
+  res.status(201).json(project);
 });
 
 app.put("/projects/:id", (req, res) => {
   const index = getProject(req.params.id);
-  if (index == -1) {
-    res.status(404).send(`Projeto de id = ${req.params.id} não encontrado!`);
+  if (index < 0) {
+    res.status(404).send({ error: "project not found!" });
   } else {
     projects[index].description = req.body.description;
-    res.status(204).json(projects[index]);
+    res.json(projects[index]);
   }
 });
 
@@ -40,11 +54,10 @@ app.delete("/projects/:id", (req, res) => {
   const { id } = req.params;
   const index = getProject(id);
   if (index == -1) {
-    res.status(404).send(`Projeto de id = ${req.params.id} não encontrado!`);
+    res.status(404).json({ error: "project not found!" });
   } else {
-    const project = projects[index];
     projects.splice(index, 1);
-    res.status(200).json(project);
+    res.status(204).send();
   }
 });
 
