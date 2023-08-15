@@ -21,7 +21,8 @@ class BookController {
       })
       .catch((error) => {
         res.status(404).send({
-          message: `${error.message} - Livro com _id = ${id} não localizado.`,
+          mensagem: `${error.message} - Livro com _id = ${id} não localizado.`,
+          status: 404,
         });
       });
   };
@@ -36,9 +37,10 @@ class BookController {
       })
       .catch((error) => {
         console.log(error);
-        res
-          .status(500)
-          .send({ message: `${error.message} - falha ao cadastrar livro.` });
+        res.status(500).send({
+          mensagem: `${error.message} - falha ao cadastrar livro.`,
+          status: 500,
+        });
       });
   };
 
@@ -47,10 +49,10 @@ class BookController {
     books
       .findByIdAndUpdate(id, { $set: req.body })
       .then(() => {
-        res.status(200).send({ message: "Livro atualizado com sucesso" });
+        res.status(200).send({ mensagem: "Livro atualizado com sucesso" });
       })
       .catch((error) => {
-        res.status(500).send({ message: error.message });
+        res.status(500).send({ mensagem: error.message, status: 500 });
       });
   };
 
