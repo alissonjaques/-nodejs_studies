@@ -4,6 +4,7 @@ import {
   MaxLength,
   ValidateNested,
   IsArray,
+  IsDateString,
 } from 'class-validator';
 import { IsReal } from '../validators/real.validator';
 import { IsNonNegative } from '../validators/non-negative-integer.validator';
@@ -49,6 +50,11 @@ export class CreateProductDTO {
   @IsNotEmpty({ message: 'O campo categoria não pode ser vazio' })
   category: string;
 
+  @IsDateString(undefined, {
+    message: 'A data de criação informada é inválida',
+  })
   creationDate: Date;
+
+  @IsDateString(undefined, { message: 'A data de edição informada é inválida' })
   updateDate: Date;
 }
