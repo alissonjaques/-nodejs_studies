@@ -1,13 +1,14 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ProductRepository } from './product.repository';
+import { CreateProductDTO } from './dto/CreateProduct.dto';
 
 @Controller('/produtos')
 export class ProductController {
   constructor(private productRepository: ProductRepository) {}
 
   @Post()
-  async createUser(@Body() userData) {
-    await this.productRepository.save(userData);
+  async createUser(@Body() CreateProductDTO: CreateProductDTO) {
+    await this.productRepository.save(CreateProductDTO);
   }
 
   @Get()
