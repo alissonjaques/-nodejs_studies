@@ -5,6 +5,7 @@ import {
   ValidateNested,
   IsArray,
   IsDateString,
+  IsInt,
 } from 'class-validator';
 import { IsReal } from '../validators/real.validator';
 import { IsNonNegative } from '../validators/non-negative-integer.validator';
@@ -15,6 +16,11 @@ import { HasMinOneImagesValidator } from '../validators/has-min-one-images.valid
 import { HasMinThreeFeaturesValidator } from '../validators/has-min-three-features.validator';
 
 export class CreateProductDTO {
+  @IsNotEmpty({ message: 'O campo userId é obrigatório' })
+  @IsInt({ message: 'O campo userId é inválido' })
+  @IsNonNegative({ message: 'O campo userId não pode ser negativo' })
+  userId: number;
+
   @IsNotEmpty({ message: 'O campo nome não pode ser vazio' })
   name: string;
 
