@@ -7,12 +7,12 @@ export class ProductController {
   constructor(private productRepository: ProductRepository) {}
 
   @Post()
-  async createUser(@Body() CreateProductDTO: CreateProductDTO) {
+  async createProduct(@Body() CreateProductDTO: CreateProductDTO) {
     await this.productRepository.save(CreateProductDTO);
   }
 
   @Get()
-  async listUser() {
+  async listProduct() {
     return await this.productRepository.list();
   }
 }
