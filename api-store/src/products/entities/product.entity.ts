@@ -3,9 +3,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { ProductFeatureEntity } from './product-feature.entity';
+import { ProductImageEntity } from './product-image.entity';
 
 @Entity({ name: 'products' })
 export class ProductEntity {
@@ -18,7 +21,7 @@ export class ProductEntity {
   @Column({ name: 'name', length: 100, nullable: false })
   name: string;
 
-  @Column({ name: 'value', nullable: false })
+  @Column({ name: 'value', type: 'money', nullable: false })
   value: number;
 
   @Column({ name: 'available_quantity', nullable: false })
@@ -39,6 +42,17 @@ export class ProductEntity {
   @DeleteDateColumn({ name: 'deleted_at' })
   deletedAt: string;
 
-  // caracteristicas: CaracteristicaProduto[];
-  // imagens: ImagemProduto[];
+  @OneToMany(
+    () => ProductFeatureEntity,
+    (productFeatureEntity) => productFeatureEntity.product,
+    { cascade: true, eager: true },
+  )
+  features: ProductFeatureEntity[];
+
+  @OneToMany(
+    () => ProductImageEntity,
+    (productImageEntity) => productImageEntity.product,
+    { cascade: true, eager: true },
+  )
+  images: ProductImageEntity[];
 }

@@ -1,6 +1,9 @@
 import { IsNotEmpty, MaxLength, MinLength } from 'class-validator';
+import { ProductEntity } from '../entities/product.entity';
 
 export class ProductImageDTO {
+  id: number;
+
   @IsNotEmpty({ message: 'O campo url não pode ser vazio' })
   url: string;
 
@@ -12,4 +15,6 @@ export class ProductImageDTO {
     message: 'O campo descrição deve possuir no máximo 1000 caracteres',
   })
   description: string;
+
+  product: ProductEntity;
 }

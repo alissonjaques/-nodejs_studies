@@ -1,7 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { ProductEntity } from './product.entity';
 
 @Entity({ name: 'product_images' })
-export class ProductImage {
+export class ProductImageEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -10,4 +11,11 @@ export class ProductImage {
 
   @Column({ name: 'description', length: 100, nullable: false })
   description: string;
+
+  @ManyToOne(() => ProductEntity, (product) => product.images, {
+    orphanedRowAction: 'delete',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  product: ProductEntity;
 }
